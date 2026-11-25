@@ -1,0 +1,5 @@
+# Temporary build scripts and cache
+temp/
+*.tmp
+.DS_Store
+Thumbs.db
