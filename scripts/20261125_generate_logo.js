@@ -265,6 +265,14 @@ async function main() {
   if (process.argv.includes('--update-asset')) {
     fs.copyFileSync(outputLogoPath, assetLogoPath);
     console.log('✅ 已同步将复现产物更新至 assets/logo.png');
+
+    // 同步生成 <1MB 的紧凑版 logo.compact.png
+    const compactLogoPath = path.join(assetsDir, 'logo.compact.png');
+    const compactImg = await Jimp.read(outputLogoPath);
+    compactImg.resize({ w: 800, h: 800 });
+    await compactImg.write(compactLogoPath);
+    const compactSize = fs.statSync(compactLogoPath).size;
+    console.log(`✅ 已同步生成紧凑版 assets/logo.compact.png (${(compactSize / 1024).toFixed(1)} KB < 1MB)`);
   }
 }
 
